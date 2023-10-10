@@ -4,10 +4,13 @@ const WebSocket = require('ws');
 const {v4: uuid} = require('uuid');
 
 const port = 6969;
-const server = http.createServer(express);
+const app = express(); // Создаем экземпляр Express приложения
+const server = http.createServer(app);
 const wss = new WebSocket.Server({server});
 
 const clients = {};
+const messages = []; //массив всех сообщений чата
+
 wss.on("connection", (ws) => {
     const id = uuid();
     clients[id] = ws;
@@ -15,7 +18,11 @@ wss.on("connection", (ws) => {
     console.log('new client connection ${id}');
 
     ws.on("message", (rawMessage) => {
-
+        const {name, message} = JSON.parse(rawMessage);
+        messages.push({name, message});
+        for (const clientId in clients) {
+            clients[clientId].send(JSON.stringify({ name, message })); // Отправляем сообщение всем клиентам
+        }
     })
 
     ws.on("close", () => {

@@ -8,8 +8,8 @@
 <body>
 
     <form action="" id="messageForm">
-        <input type="text" name = "name" />
-        <input type="text" name = "message" />
+        <input type="text" name = "name" id="name"/>
+        <input type="text" name = "message" id="message"/>
         <input type="submit" value="send" />
     </form>
     <div id="chat"></div>
@@ -17,8 +17,9 @@
     <script type="module">
         const chatEl = document.querySelector('#chat')
         const ws = new WebSocket("ws://127.0.0.1:6969"); // TODO узнать что тут прописывать в случае исп хостинга
-        ws.onmessage = (message) => {
-
+        ws.onmessage = (event) => {
+            const receivedMessage = JSON.parse(event.data); // Распарсим JSON-сообщение
+            console.log(receivedMessage); // Выведем его в консоль
         }
 
         const send = (event) => {
