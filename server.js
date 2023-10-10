@@ -1,19 +1,29 @@
 const http = require('http');
 const express = require('express');
 const WebSocket = require('ws');
+const {v4: uuid} = require('uuid');
 
 const port = 6969;
 const server = http.createServer(express);
 const wss = new WebSocket.Server({server});
 
-wss.on("connection", (ws)=>{
-    ws.on("message", function incoming(data){
-        wss.clients.forEach(function each(client) {
-            if (client !== ws && client.readyState === WebSocket.OPEN) {
-                client.send(data);
-            }
-        })    
+const clients = {};
+wss.on("connection", (ws) => {
+    const id = uuid();
+    clients[id] = ws;
+
+    console.log('new client connection ${id}');
+
+    ws.on("message", (rawMessage) => {
+
     })
+
+    ws.on("close", () => {
+        delete clients[id];
+        console('client ${id} connection is closed');
+    })
+
+
 })
 
 server.listen(port, function() {
