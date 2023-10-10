@@ -20,7 +20,7 @@ wss.on("connection", (ws) => {
 
     ws.on("close", () => {
         delete clients[id];
-        console('client ${id} connection is closed');
+        console.log('client ${id} connection is closed');
     })
 
 

@@ -6,8 +6,36 @@
     <title>Chat</title>
 </head>
 <body>
-    <pre id="messages" style="height: 400px; overflow: scroll;"></pre>
-    <input type="text" id="messageBox" placeholder="Type your message here" />
-    <button id="send" title="Send Message!">Send message</button>
+
+    <form action="" id="messageForm">
+        <input type="text" name = "name" />
+        <input type="text" name = "message" />
+        <input type="submit" value="send" />
+    </form>
+    <div id="chat"></div>
+
+    <script type="module">
+        const chatEl = document.querySelector('#chat')
+        const ws = new WebSocket("ws://127.0.0.1:6969"); // TODO узнать что тут прописывать в случае исп хостинга
+        ws.onmessage = (message) => {
+
+        }
+
+        const send = (event) => {
+            event.preventDefault();
+            const name = document.querySelector('#name').value;
+            const message = document.querySelector('#message').value;
+            ws.send(JSON.stringify({
+                name, message
+            }));
+            return false;
+
+        }
+
+        const formEl = document.querySelector('#messageForm');
+        formEl.addEventListener("submit", send);
+
+    </script>
+
 </body>
 </html>
