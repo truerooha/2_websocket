@@ -18,8 +18,13 @@
         const chatEl = document.querySelector('#chat')
         const ws = new WebSocket("ws://127.0.0.1:6969"); // TODO узнать что тут прописывать в случае исп хостинга
         ws.onmessage = (event) => {
-            const receivedMessage = JSON.parse(event.data); // Распарсим JSON-сообщение
-            console.log(receivedMessage); // Выведем его в консоль
+            const messages = JSON.parse(event.data);
+            messages.forEach((val) => {
+                const messageEl = document.createElement('div');
+                messageEl.appendChild(document.createTextNode(`${val.name}: ${val.message}`));
+                chatEl.appendChild(messageEl);
+            })
+            
         }
 
         const send = (event) => {
