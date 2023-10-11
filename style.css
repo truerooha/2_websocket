@@ -1,0 +1,33 @@
+#chat {
+    height: 600px;
+    width: 300px;
+    border: 1px solid;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+input {
+    margin-bottom: 10px;
+}
+
+.bubble {
+    min-height: 20px;
+    border: 1px solid;
+}
+
+#message {
+    margin-right: 5px;
+}
+
+#text-input {
+    flex-direction: row;
+    display: flex;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}

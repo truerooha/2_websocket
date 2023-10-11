@@ -4,25 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="container" >
+        <div id="chat"></div>
 
-    <form action="" id="messageForm">
-        <input type="text" name = "name" id="name"/>
-        <input type="text" name = "message" id="message"/>
-        <input type="submit" value="send" />
-    </form>
-    <div id="chat"></div>
+        <form action="" id="messageForm">
+            <input type="text" name = "name" id="name" placeholder="Введите имя"/> <br>
+            <div id="text-input">
+                <input type="text" name = "message" id="message" placeholder="Введите сообщение"/> <br>
+                <input type="submit" value="Отправить" />
+            </div>
+            
+        </form>
+    </div>
 
     <script type="module">
         const chatEl = document.querySelector('#chat')
-        const ws = new WebSocket("ws://127.0.0.1:6969"); // TODO узнать что тут прописывать в случае исп хостинга
+        const ws = new WebSocket("ws://127.0.0.1:6969");
         ws.onmessage = (event) => {
             const messages = JSON.parse(event.data);
             messages.forEach((val) => {
-                const messageEl = document.createElement('div');
-                messageEl.appendChild(document.createTextNode(`${val.name}: ${val.message}`));
-                chatEl.appendChild(messageEl);
+                creteMessageDiv(chatEl, val.name, val.message)
+                
             })
             
         }
@@ -36,6 +41,13 @@
             }));
             return false;
 
+        }
+
+        function creteMessageDiv(chat, name, message) {
+            const messageEl = document.createElement('div');
+            messageEl.classList.add('bubble');
+            messageEl.appendChild(document.createTextNode(`${name}: ${message}`));
+            chat.appendChild(messageEl);
         }
 
         const formEl = document.querySelector('#messageForm');
